@@ -1,0 +1,100 @@
+<div class="bg-white px-10 py-8">
+  <div class="mb-10">
+    <div class="flex items-center gap-3">
+      <h1 class="text-3xl font-bold text-[#0a2d6e]">¡Ya casi terminamos!</h1>
+    </div>
+    <p class="text-gray-400 text-sm mt-1 ml-8">Revisa la información y completa lo solicitado.</p>
+  </div>
+
+  <div class="flex gap-12 items-stretch">
+    <div class="flex flex-col gap-3 w-76 h-100 shrink-0">
+      <div
+        class="bg-[#f5c400] rounded-3xl flex flex-col items-center py-6 px-4 flex-1 overflow-hidden"
+      >
+        <p class="font-bold text-lg text-[#0a2d6e] mb-3 text-center">
+          {{ perfilEntrenador.nombre }}
+        </p>
+        <img
+          [src]="fotoUrl()"
+          alt="Imagen de perfil"
+          class="w-40 h-40 rounded-full bg-white border-4 border-white shadow-md overflow-hidden object-cover"
+        />
+        @if (perfilEntrenador.pasatiempo && perfilEntrenador.pasatiempo.length > 0) {
+          <p class="text-[#0a2d6e] text-sm mt-2 text-center px-2">
+            <strong>Pasatiempo: </strong> {{ perfilEntrenador.pasatiempo.join(', ') || '' }}
+          </p>
+        }
+
+        <p class="text-[#0a2d6e] text-sm mt-1 text-center">
+          <strong>Edad: </strong> {{ perfilEntrenador.edad }} años
+        </p>
+        @if (perfilEntrenador.edad && perfilEntrenador.edad >= 18) {
+          <p class="text-[#0a2d6e] text-sm mt-1 text-center px-2">
+            <strong>DUI: </strong> {{ perfilEntrenador.documento }}
+          </p>
+        } @else {
+          <p class="text-[#0a2d6e] text-sm mt-1 text-center px-2">
+            <strong>Carne de minoridad: </strong> {{ perfilEntrenador.documento }}
+          </p>
+        }
+      </div>
+    </div>
+
+    <div class="flex-1 max-w-md">
+      <h2 class="text-2xl font-bold text-[#0a2d6e] mb-1">Tu información</h2>
+      <p class="text-gray-400 text-sm mb-7">
+        Selecciona 3 pokemon para que sean parte de tu equipo <br />
+        <span class="font-bold text-[#0a2d6e] mb-1">
+          Restante:
+          {{ escogerPokemonService.TOTAL_POKEMON_REQUERIDOS - pokemonesSeleccionados().size }}
+        </span>
+      </p>
+
+      <div class="mb-6">
+        <shared-searchbox (onDebounce)="buscarPokemon($event)" [debounceTime]="300" />
+      </div>
+
+      <cdk-virtual-scroll-viewport
+        [itemSize]="140"
+        class="h-[420px] border border-gray-200 rounded-lg bg-gray-50"
+        (scroll)="onScroll($event)"
+      >
+        <div *cdkVirtualFor="let fila of pokemonFilas()" class="grid grid-cols-3 gap-3 px-4 py-2">
+          @for (pokemon of fila; track pokemon.name) {
+            @let seleccionado = pokemonesSeleccionados().has(pokemon.name);
+            @let lleno =
+              pokemonesSeleccionados().size >= escogerPokemonService.TOTAL_POKEMON_REQUERIDOS &&
+              !seleccionado;
+            <div
+              class="rounded-lg shadow-sm p-2 text-center h-40 flex flex-col items-center justify-center gap-1 transition-all"
+              [class]="
+                seleccionado
+                  ? 'bg-[#f5c400] ring-2 ring-[#0a2d6e] cursor-pointer'
+                  : lleno
+                    ? 'bg-white opacity-40 cursor-not-allowed'
+                    : 'bg-white hover:shadow-md cursor-pointer'
+              "
+              (click)="seleccionarPokemon(pokemon.name)"
+            >
+              @if (pokemonesDetalle().get(pokemon.name); as detalle) {
+                <img
+                  [src]="detalle.sprites.other.home.front_default"
+                  [alt]="detalle.name"
+                  class="w-25 h-25 object-contain"
+                />
+                <span
+                  class="inline-block text-[10px] font-semibold capitalize px-2 py-0.5 rounded-full truncate max-w-full"
+                  [class]="seleccionado ? 'bg-[#0a2d6e] text-white' : 'bg-[#0a2d6e] text-white'"
+                >
+                  #{{ detalle.id }} {{ detalle.name }}
+                </span>
+              } @else {
+                <p class="text-gray-300 text-xs animate-pulse">Cargando...</p>
+              }
+            </div>
+          }
+        </div>
+      </cdk-virtual-scroll-viewport>
+    </div>
+  </div>
+</div>

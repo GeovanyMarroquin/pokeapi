@@ -1,0 +1,9 @@
+@reference '../../../../styles.css';
+
+.nav-link {
+  @apply text-gray-700 font-medium text-sm hover:text-blue-600 transition-colors duration-150;
+}
+
+.nav-link-active {
+  @apply text-blue-600 font-semibold;
+}
