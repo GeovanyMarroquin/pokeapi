@@ -58,15 +58,21 @@
               class="inline-block text-xs font-semibold capitalize px-3 py-1 rounded-full truncate max-w-full bg-[#0a2d6e] text-white mt-2"
             >
               #{{ detalle.id }} {{ detalle.name }}
+              <br />
+            </span>
+            <span
+              class="inline-block text-xs font-semibold capitalize px-3 py-1 rounded-full truncate max-w-full mt-2"
+            >
+              {{ obtenerTipos(detalle) }}
             </span>
           </div>
 
           <div class="flex-1 flex flex-col justify-center gap-2">
             @for (stat of detalle.stats; track stat.stat.name) {
               <div class="flex items-center gap-2">
-                <span class="text-xs text-gray-500 w-28 shrink-0">{{
-                  statInfo[stat.stat.name]?.label ?? stat.stat.name
-                }}</span>
+                <span class="text-xs text-gray-500 w-28 shrink-0">
+                  {{ statInfo[stat.stat.name]?.label ?? stat.stat.name }}
+                </span>
                 <div class="flex-1 bg-gray-200 rounded-full h-2">
                   <div
                     class="bg-[#0a2d6e] h-2 rounded-full"

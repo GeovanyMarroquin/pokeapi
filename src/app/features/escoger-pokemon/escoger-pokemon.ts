@@ -109,7 +109,7 @@ export class EscogerPokemon implements OnInit {
     this.escogerPokemonService
       .obtenerPokemonesPorGeneracion(1)
       .subscribe((response: PokemonGeneracionUno[]) => {
-        console.log('Pokémon de la primera generación:', response);
+        // console.log('Pokémon de la primera generación:', response);
         this.pokemonesGeneracionUno.set(response);
         this.pokemonesVisibles.set(response.slice(0, this.INITIAL_SIZE));
         this.fetchDetalles(response.slice(0, this.INITIAL_SIZE));

@@ -30,7 +30,7 @@ export class EscogerPokemonService {
 
     return this.httpClient.get<PokemonPorGeneracionResponse>(url, {}).pipe(
       tap((response) => {
-        console.log('Respuesta de la API:', response);
+        // console.log('Respuesta de la API:', response);
         this.pokemonesBuscados.set(response.pokemon_species);
       }),
       switchMap((response) => of(response.pokemon_species)),

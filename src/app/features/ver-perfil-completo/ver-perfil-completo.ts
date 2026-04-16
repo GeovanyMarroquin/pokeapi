@@ -3,6 +3,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { PerfilEntrenador } from '@core/interfaces/perfil-entrenador';
 import { EscogerPokemonService } from '@core/services/escoger-pokemon';
 import { PerfilFormService } from '@core/services/perfil-form';
+import { PokemonPorNombreResponse } from '@core/interfaces/poke-api';
 
 @Component({
   selector: 'app-ver-perfil-completo',
@@ -29,4 +30,10 @@ export class VerPerfilCompleto {
     'special-defense': { label: 'Defensa especial', max: 230 },
     speed: { label: 'Velocidad', max: 180 },
   };
+
+  obtenerTipos(pokemon: PokemonPorNombreResponse) {
+    // console.log({ pokemon });
+
+    return pokemon.types.map((t) => t.type.name).join(', ');
+  }
 }

@@ -62,7 +62,7 @@ export class CrearPerfil {
 
   enviar(): void {
     if (this.formGroup.valid) {
-      console.log(this.formGroup.value);
+      // console.log(this.formGroup.value);
     }
   }
 }
